@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{7fc36935-5de5-4cf9-8528-27be5162cebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="source\Managers">
+      <UniqueIdentifier>{c5b74fbd-afbd-4d28-9e0c-85e1f9118345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Loaders">
+      <UniqueIdentifier>{f3a0e9e8-28e0-4283-916d-e1f5185fd49e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Engine">
+      <UniqueIdentifier>{28c0882b-f5e8-4174-9496-fcda99d481de}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\Managers\ComponentManager.cpp">
+      <Filter>source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\InputManager.cpp">
+      <Filter>source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\MeshManager.cpp">
+      <Filter>source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\ShaderManager.cpp">
+      <Filter>source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\TextureManager.cpp">
+      <Filter>source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\WindowManager.cpp">
+      <Filter>source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Loaders\Model.cpp">
+      <Filter>source\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Configuration.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Engine.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Entity.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\EntityComponent.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\main.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\PhysXWorld.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Post porcessing shaders.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Renderer.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Scene.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\World.cpp">
+      <Filter>source\Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\Managers\ComponentManager.h">
+      <Filter>source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\MeshManager.h">
+      <Filter>source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\ShaderManager.h">
+      <Filter>source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\TextureManager.h">
+      <Filter>source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\WindowManager.h">
+      <Filter>source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Loaders\Model.h">
+      <Filter>source\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Loaders\ShaderLoader.h">
+      <Filter>source\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\InputManager.h">
+      <Filter>source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Configuration.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Engine.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Entity.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\EntityComponent.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Mesher.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Model2.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\PhysXWorld.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Renderer.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\RenderingData.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Scene.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\vertexData.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\World.h">
+      <Filter>source\Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\SimpleFS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\SimpleVS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="RGB2HSV_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="HSV2RGB_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="YCbCr2RGB_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="RGB2YCbCr_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="ShiftSaturation_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\Phong_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\Phong_VS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\ColorOnly_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\HSV2RGB_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\RGB2HSV_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\RGB2YCbCr_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\ShiftSaturation_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\YCbCr2RGB_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>

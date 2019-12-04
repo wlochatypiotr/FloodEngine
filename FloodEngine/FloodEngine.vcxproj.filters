@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="source\Loaders\Model.cpp">
+      <Filter>Source\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\ComponentManager.cpp">
+      <Filter>Source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\InputManager.cpp">
+      <Filter>Source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\MeshManager.cpp">
+      <Filter>Source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\ShaderManager.cpp">
+      <Filter>Source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\TextureManager.cpp">
+      <Filter>Source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Managers\WindowManager.cpp">
+      <Filter>Source\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Configuration.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Engine.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Entity.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\EntityComponent.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\main.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\PhysXWorld.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Post porcessing shaders.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Renderer.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Scene.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\World.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\Loaders\Model.h">
+      <Filter>Source\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Loaders\ShaderLoader.h">
+      <Filter>Source\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\ComponentManager.h">
+      <Filter>Source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\InputManager.h">
+      <Filter>Source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\MeshManager.h">
+      <Filter>Source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\ShaderManager.h">
+      <Filter>Source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\TextureManager.h">
+      <Filter>Source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Managers\WindowManager.h">
+      <Filter>Source\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Configuration.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Engine.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Entity.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\EntityComponent.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Mesher.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Model2.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\PhysXWorld.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Renderer.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\RenderingData.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\Scene.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\vertexData.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\World.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HSV2RGB_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\HSV2RGB_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\Phong_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\Phong_VS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\RGB2HSV_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="RGB2HSV_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\RGB2YCbCr_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="RGB2YCbCr_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\ShiftSaturation_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="ShiftSaturation_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\SimpleFS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\SimpleVS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\YCbCr2RGB_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="YCbCr2RGB_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\ColorOnly_FS.frag">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{d64cb017-7f7b-4e05-892c-eadf76c1930a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Loaders">
+      <UniqueIdentifier>{d7a1e612-d027-4532-ac1a-6a399273f966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{5c1b6fd0-e779-4bde-b14f-414e74b31715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Managers">
+      <UniqueIdentifier>{27392f2c-3b7a-4654-a57a-183ce1925e6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine">
+      <UniqueIdentifier>{584e3791-2657-4467-9bfe-8173bc49dfc0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
