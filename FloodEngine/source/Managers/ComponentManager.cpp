@@ -2,36 +2,41 @@
 
 
 
-CComponentManager::CComponentManager()
+MComponentManager::MComponentManager()
 {
 }
 
 
-CComponentManager::~CComponentManager()
+MComponentManager::~MComponentManager()
 {
 }
 
-void CComponentManager::AddComponent(const entity_component_id_t & id, EComponentTypeEnum type)
+void MComponentManager::Initialize()
 {
-	std::unique_ptr<CEntityComponent> component;// = std::make_unique<CECVisualMesh>();
+
+}
+
+void MComponentManager::AddComponent(const EntityComponentIDType & ID, EComponentTypeEnum Type)
+{
+	std::unique_ptr<CEntityComponent> Component;// = std::make_unique<CECVisualMesh>();
 												//m_components.emplace(id, std::move(component));
 
-	switch (type)
+	switch (Type)
 	{
-	case MESH_COMPONENT:
-		component = std::make_unique<CECVisualMesh>();
-		m_components.emplace(id, std::move(component));
+	case EComponentTypeEnum::MESH_COMPONENT:
+		Component = std::make_unique<CECVisualMesh>();
+		Components.emplace(ID, std::move(Component));
 		break;
 		/*case SPHERE_COMPONENT:
 		component = std::make_unique<CECVisualSphere>();
 		m_components.emplace(id, std::move(component));
 		break;*/
 	default:
-		std::cout << "Wrong component type" << std::endl;
+		printf("Wrong component type");
 	}
 }
 
-CEntityComponent * CComponentManager::GetComponent(const entity_component_id_t & id)
+CEntityComponent * MComponentManager::GetComponent(const EntityComponentIDType & ID) const
 {
-	return m_components.at(id).get();
+	return Components.at(ID).get();
 }

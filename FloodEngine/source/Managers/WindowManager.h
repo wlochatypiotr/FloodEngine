@@ -3,13 +3,13 @@
 #include "GLFW/glfw3.h"
 #include <iostream>
 
-class CWindowManager
+class MWindowManager
 {
 public:
-	CWindowManager();
-	CWindowManager(const CWindowManager&) = delete;
-	CWindowManager& operator=(const CWindowManager&) = delete;
-	~CWindowManager();
+	MWindowManager();
+	MWindowManager(const MWindowManager&) = delete;
+	MWindowManager& operator=(const MWindowManager&) = delete;
+	~MWindowManager();
 	void Initialize(int majorVersion, int minorVersion, int screenWidth, int screenHeight);
 	void ShutDown();
 	GLFWwindow * GetWindow() { return m_window; }

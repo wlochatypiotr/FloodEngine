@@ -5,19 +5,21 @@
 
 using namespace glm;
 class CRenderer;
-using entity_id_t = std::string;
+using EntityIDType = std::string;
 
 
-struct Transform {
-	vec3 m_position;
-	vec3 m_rotation; // x, y, z rotations
-	vec3 m_scale;
-	Transform() = default;
-	Transform(const Transform & rhs)
+struct STransform {
+	vec3 Position;
+	vec3 Rotation; // x, y, z rotations
+	vec3 Scale;
+
+	STransform() = default;
+
+	STransform(const STransform& RHS)
 	{
-		this->m_position = rhs.m_position;
-		this->m_rotation = rhs.m_rotation;
-		this->m_scale = rhs.m_scale;
+		Position = RHS.Position;
+		Rotation = RHS.Rotation;
+		Scale = RHS.Scale;
 	}
 };
 
@@ -25,49 +27,50 @@ class CEntity
 {
 	friend class CScene;
 public:
-	using entity_id_t = std::string;
-	CEntity(const entity_id_t& id, bool isVisible = true ,bool isActive = true);
+	using EntityIDType = std::string;
+
+	CEntity(const EntityIDType& ID, const bool IsVisible = true, const bool IsActive = true);
 	//hoe copy c should work ?!
-	CEntity(const CEntity & rhs);
+	CEntity(const CEntity& RHS);
 
-	const Transform& GetTransform() const;
-	void SetTransform(const Transform& xform);
-	void SetPosition(const vec3& pos);
-	void SetRotation(const vec3& rot);
-	void SetRotation(const float& x, const float& y, const float& z);
-	void SetScale(const vec3& scale);
-	void SetScale(const float& uniformScale);
-	vec3 GetScale3D();
-	const entity_id_t& GetID() const;
-	void SetID(const entity_id_t& id);
+	const STransform& GetTransform() const;
+	void SetTransform(const STransform& InTransform);
+	void SetPosition(const vec3& InPos);
+	void SetRotation(const vec3& InRotation);
+	void SetRotation(const float X, const float Y, const float Z);
+	void SetScale(const vec3& InScale);
+	void SetScale(const float InUniformScale);
+	vec3 GetScale3D() const;
+	EntityIDType GetID() const;
+	void SetID(const EntityIDType& InID);
 
-	bool IsVisible() { return m_isVisible; }
-	void SetVisible(bool flag) { m_isVisible = flag; }
+	bool ShouldBeVisible() const { return bIsVisible; }
+	void SetVisible(const bool InFlag) { bIsVisible = InFlag; }
 
 	//void SetActive(bool activationState);
 
-	bool IsActive();
-	void Activate() { m_isActive = true; }
-	void Deactivate() { m_isActive = false; }
+	bool ShouldBeActive() const { return bIsActive; }
+	void SetActive(const bool InFlag) { bIsActive = InFlag; }
 
 	//This function will update all Entity components
 	//TODO: 
 	//add time as argument for use of some components
 	void Update();
 
-	CEntityComponent* GetEntityComponent(const entity_component_id_t& familyID);
-	CEntityComponent* SetEntityComponent(CEntityComponent* newEntityComponent);
+	const CEntityComponent* GetEntityComponent(const EntityComponentIDType& InFamilyID) const;
+	CEntityComponent* SetEntityComponent(CEntityComponent* NewEntityComponent);
 	void ClearComponents();
 
 private:
-	Transform m_transform;
-	entity_id_t m_entityID;
-	bool m_isVisible;
-	bool m_isActive;
+	STransform Transform;
+	EntityIDType EntityID;
+	bool bIsVisible;
+	bool bIsActive;
 
 	//for CEntity copy constructor
+	//TODO: unused
 	static int m_counter;
 
-	using componentTableType = std::map<const entity_component_id_t, CEntityComponent* >;
-	componentTableType m_components; //map of all the components;
+	using ComponentTableType = std::map<const EntityComponentIDType, CEntityComponent*>;
+	ComponentTableType Components; //map of all the components;
 };

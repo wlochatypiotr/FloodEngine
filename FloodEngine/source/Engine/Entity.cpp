@@ -2,130 +2,127 @@
 
 int CEntity::m_counter = 1;
 
-CEntity::CEntity(const entity_id_t & id,bool isVisible , bool isActive) : m_entityID(id), m_isVisible(isVisible), m_isActive(isActive)
+CEntity::CEntity(const EntityIDType & ID, const bool InIsVisible, const bool InIsActive)
 {
+	EntityID = ID;
+	bIsVisible = InIsVisible;
+	bIsActive = InIsActive;
 }
 
-CEntity::CEntity(const CEntity & rhs)
+CEntity::CEntity(const CEntity& RHS)
 {
-	this->m_transform = rhs.m_transform;
-	this->m_entityID = rhs.m_entityID;
-	this->m_isVisible = rhs.m_isVisible;
-	this->m_isActive = rhs.m_isActive;
-	this->m_components = rhs.m_components;
+	Transform = RHS.Transform;
+	EntityID = RHS.EntityID;
+	bIsVisible = RHS.bIsVisible;
+	bIsActive = RHS.bIsActive;
+	Components = RHS.Components;
 }
 
-const Transform& CEntity::GetTransform() const
+const STransform& CEntity::GetTransform() const
 {
-	return m_transform;
+	return Transform;
 }
 
-void CEntity::SetTransform(const Transform& xform)
+void CEntity::SetTransform(const STransform& InTransform)
 {
-	m_transform = xform;
+	Transform = InTransform;
 }
 
-void CEntity::SetPosition(const vec3& pos)
+void CEntity::SetPosition(const vec3& InPos)
 {
-	m_transform.m_position = pos;
+	Transform.Position = InPos;
 }
 
-void CEntity::SetRotation(const vec3 & rot)
+void CEntity::SetRotation(const vec3& InRotation)
 {
-	m_transform.m_rotation = rot;
+	Transform.Rotation = InRotation;
 }
 
-void CEntity::SetRotation(const float& x, const float& y, const float& z)
+void CEntity::SetRotation(const float X, const float Y, const float Z)
 {
-	m_transform.m_rotation.x = x;
-	m_transform.m_rotation.y = y;
-	m_transform.m_rotation.z = z;
+	Transform.Rotation.x = X;
+	Transform.Rotation.y = Y;
+	Transform.Rotation.z = Z;
 }
 
-void CEntity::SetScale(const vec3& scale)
+void CEntity::SetScale(const vec3& InScale)
 {
-	m_transform.m_scale = scale;
+	Transform.Scale = InScale;
 }
 
-void CEntity::SetScale(const float& uniformScale)
+void CEntity::SetScale(const float InUniformScale)
 {
-	m_transform.m_scale.x = uniformScale;
-	m_transform.m_scale.y = uniformScale;
-	m_transform.m_scale.z = uniformScale;
+	Transform.Scale.x = InUniformScale;
+	Transform.Scale.y = InUniformScale;
+	Transform.Scale.z = InUniformScale;
 }
 
-vec3 CEntity::GetScale3D()
+vec3 CEntity::GetScale3D() const
 {
-	return m_transform.m_scale;
+	return Transform.Scale;
 }
 
-const entity_id_t& CEntity::GetID() const
+EntityIDType CEntity::GetID() const
 {
-	return m_entityID;
+	return EntityID;
 }
 
-void CEntity::SetID(const entity_id_t& id)
+void CEntity::SetID(const EntityIDType& InID)
 {
-	m_entityID = id;
+	EntityID = InID;
 }
 
-bool CEntity::IsActive()
-{
-	return m_isActive;
-}
-
-//void CEntity::SetActive(bool activationState)
-//{
-//	m_isActive = activationState;
-//}
 
 void CEntity::Update()
 {
-	if (m_isActive)
+	if (!bIsActive)
 	{
-		using iterator_t = std::map<const entity_component_id_t, CEntityComponent* >::iterator;
-		for (iterator_t it = m_components.begin(); it != m_components.end(); ++it)
-		{
-			it->second->Update();
-		}
+		return;
+	}
+
+	for (auto it = Components.begin(); it != Components.end(); ++it)
+	{
+		it->second->Update();
 	}
 }
 
 //returns nullptr if there is no such component
-CEntityComponent * CEntity::GetEntityComponent(const entity_component_id_t & familyID)
+const CEntityComponent * CEntity::GetEntityComponent(const EntityComponentIDType& InFamilyID) const
 {
-	using it = std::map<entity_component_id_t, CEntityComponent*>::iterator;
-	it findResult = m_components.find(familyID);
-	if (findResult == m_components.end())
+	const auto SearchResult = Components.find(InFamilyID);
+	if (SearchResult == Components.end())
+	{
 		return nullptr;
+	}
 	else
-		return findResult->second;
+	{
+		return SearchResult->second;
+	}
 }
 
 //set component in entity to passed component, if such component already exists
 //replace it with new component and return pointer to replaced component
-CEntityComponent * CEntity::SetEntityComponent(CEntityComponent * newEntityComponent)
+CEntityComponent * CEntity::SetEntityComponent(CEntityComponent* NewEntityComponent)
 {
-	using it = std::map<entity_component_id_t, CEntityComponent*>::iterator;
-	it findResult = m_components.find(newEntityComponent->FamilyID());
+	auto const SearchResult = Components.find(NewEntityComponent->FamilyID());
 
-	if (findResult != m_components.end())
+	if (SearchResult != Components.end())
 	{
-		CEntityComponent* previous = findResult->second;
-		previous->SetOwningEntity(nullptr);
-		newEntityComponent->SetOwningEntity(this);
-		findResult->second = newEntityComponent;
-		return previous;
+		CEntityComponent* CurrComponent = SearchResult->second;
+		CurrComponent->SetOwningEntity(nullptr);
+		NewEntityComponent->SetOwningEntity(this);
+		SearchResult->second = NewEntityComponent;
+		return CurrComponent;
 	}
 	else
 	{
-		newEntityComponent->SetOwningEntity(this);
-		auto ret = m_components.emplace(std::make_pair(newEntityComponent->FamilyID(), newEntityComponent));
-		return ret.first->second;
+		NewEntityComponent->SetOwningEntity(this);
+		auto CreatedComponent = Components.emplace(std::make_pair(NewEntityComponent->FamilyID(), NewEntityComponent));
+		return CreatedComponent.first->second;
 	}
 }
 
 void CEntity::ClearComponents()
 {
-	m_components.clear();
+	Components.clear();
 }

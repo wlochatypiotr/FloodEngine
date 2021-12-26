@@ -3,21 +3,24 @@
 #include <unordered_map>
 #include <memory>
 
-using model_id_t = std::string;
+using ModelIDType = std::string;
 
-class CModelManager
+class MModelManager
 {
 public:
-	CModelManager(const CModelManager&) = delete;
-	CModelManager& operator=(const CModelManager&) = delete;
-	CModelManager();
-	~CModelManager();
+	MModelManager(const MModelManager&) = delete;
+	MModelManager(MModelManager&&) = delete;
+	MModelManager& operator=(const MModelManager&) = delete;
+	MModelManager& operator=(MModelManager&&) = delete;
 
-	CModel* Get(model_id_t id);
-	bool Load(model_id_t id, model_id_t filename);
+	MModelManager();
+	~MModelManager();
+
+	CModel* Get(const ModelIDType& ID) const;
+	bool Load(const ModelIDType& ID, ModelIDType Filename);
 	void ShutDown();
 	void Clear();
 	void Initialize();
 private:
-	std::unordered_map <model_id_t, std::unique_ptr<CModel> > m_map;
+	std::unordered_map <ModelIDType, std::unique_ptr<CModel> > Models;
 };

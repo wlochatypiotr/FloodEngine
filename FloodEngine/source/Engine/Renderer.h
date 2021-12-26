@@ -8,13 +8,13 @@ class CRenderer
 {
 public:
 	CRenderer();
-	enum EAttributeEnum
+	enum class EAttributeEnum
 	{
 		VERTEX_POS = 0,
 		VERTEX_NORMAL = 1,
 		TEXTURE_UV = 2
 	};
-	enum EUniformEnum
+	enum class EUniformEnum
 	{
 		MODEL_MATRIX_4X4 = 3,
 		VIEW_MATRIX_4X4 = 4,
@@ -25,24 +25,24 @@ public:
 		CAMERA_POS_VEC3 = 9
 	};
 
-	void Initialize(const Shader& shader, CWindowManager * mgr, int FPSLimit = 0);
-	void SetViewMatrix(const mat4& view);
-	void SetProjectionMatrix(const mat4& proj);
-	void SetProgram(const Shader& shader);
+	void Initialize(const Shader& InShader, MWindowManager* InWinManager, const int FPSLimit = 0);
+	void SetViewMatrix(const mat4& InViewMatrix);
+	void SetProjectionMatrix(const mat4& InProjectionMatrix);
+	void SetProgram(const Shader& InShader);
 
-	void Draw(CEntity * entity);
-	void Draw(CWorld * world);
-	void Draw(CScene * scene);
+	void Draw(const CEntity* InEntity) const;
+	void Draw(const CWorld* InWorld);
+	void Draw(CScene * scene) const;
 	void EnableTexturing(bool flag);
 	void ClearBuffer();
 	void SwapBuffer();
 private:
 	//overloads on DrawComponent
-	void DrawComponent(CECVisualMesh* MeshComponent);
+	void DrawComponent(const CECVisualMesh* MeshComponent) const;
 	bool bIsTexturingEnabled = true;
 	//void DrawComponent(Model& model);
 	mat4 ViewMatrix;// = nullptr;
 	mat4 ProjectionMatrix;// = nullptr;
 	Shader DefaultShader;
-	CWindowManager* WindowManager;
+	MWindowManager* WindowManager;
 };

@@ -26,7 +26,7 @@ bool CModel::LoadModel(const std::string & PathToFile)
 			unsigned int vertNumber = currMesh->mNumVertices;
 			std::vector<unsigned int> indices; //indices
 
-			std::vector<vertexData> currMeshData; //vertices
+			std::vector<VertexData> currMeshData; //vertices
 			currMeshData.resize(vertNumber);
 
 			//load position
@@ -103,7 +103,7 @@ bool CModel::LoadModel(const std::string & PathToFile)
 			m_meshes.at(i).m_vertices = currMeshData;
 			m_meshes.at(i).m_textures = meshTextures;
 			m_meshes.at(i).m_mesh.numVertices = vertNumber;
-			m_meshes.at(i).m_mesh.numIndices = indices.size();
+			m_meshes.at(i).m_mesh.numIndices = static_cast<unsigned int>(indices.size());
 
 			//laod data to OpenGL
 			ret = m_meshes.at(i).LoadMeshToOpenGL();
@@ -121,7 +121,7 @@ bool CModel::LoadModel(const std::string & PathToFile)
 }
 
 
-const std::vector<CMesh>& CModel::GetMeshes()
+const std::vector<CMesh>& CModel::GetMeshes() const
 {
 	return m_meshes;
 }
@@ -217,13 +217,13 @@ bool CMesh::LoadMeshToOpenGL()
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData) * this->m_mesh.numVertices, this->m_vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * this->m_mesh.numVertices, this->m_vertices.data(), GL_STATIC_DRAW);
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->m_mesh.numIndices, this->m_indices.data(), GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertexData), (GLvoid*)0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertexData), (GLvoid*)(5 * sizeof(GLfloat)));
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertexData), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (GLvoid*)0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (GLvoid*)(5 * sizeof(GLfloat)));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (GLvoid*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
@@ -236,14 +236,14 @@ bool CMesh::LoadMeshToOpenGL()
 	return glGetError() == GL_NO_ERROR;
 }
 
-void CMesh::UnloadOpenGLData()
+void CMesh::UnloadOpenGLData() const
 {
 	glDeleteVertexArrays(1, &m_mesh.VAO);
 	glDeleteBuffers(1, &m_mesh.VBO);
 	glDeleteBuffers(1, &m_mesh.EBO);
 
-	for (auto& c : m_textures)
+	for (const TextureStruct& Tex : m_textures)
 	{
-		glDeleteTextures(1, &c.id);
+		glDeleteTextures(1, &Tex.id);
 	}
 }

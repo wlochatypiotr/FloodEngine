@@ -4,10 +4,10 @@ CRenderer::CRenderer()
 {
 }
 
-void CRenderer::Initialize(const Shader& shader, CWindowManager * mgr, int FPSLimit)
+void CRenderer::Initialize(const Shader& InShader, MWindowManager* InWinManager, const int FPSLimit)
 {
 	//set pointer for windowManager
-	WindowManager = mgr;
+	WindowManager = InWinManager;
 
 	//compute view matrix
 	ViewMatrix = glm::mat4();
@@ -17,10 +17,10 @@ void CRenderer::Initialize(const Shader& shader, CWindowManager * mgr, int FPSLi
 	
 	//compute projection matrix
 	ProjectionMatrix = glm::mat4();
-	ProjectionMatrix = glm::perspective(glm::radians(45.0f), (GLfloat)WindowManager->GetWindowWidth() / (GLfloat)WindowManager->GetWindowHeight(), 0.1f, 100.0f);
+	ProjectionMatrix = glm::perspective(glm::radians(45.0f), static_cast<GLfloat>(WindowManager->GetWindowWidth()) / static_cast<GLfloat>(WindowManager->GetWindowHeight()), 0.1f, 100.0f);
 
 	//set default shader
-	SetProgram(shader);
+	SetProgram(InShader);
 
 	//setup some GL options
 	glEnable(GL_DEPTH_TEST);
@@ -28,43 +28,43 @@ void CRenderer::Initialize(const Shader& shader, CWindowManager * mgr, int FPSLi
 	glCullFace(GL_BACK);
 }
 
-void CRenderer::SetViewMatrix(const mat4& view)
+void CRenderer::SetViewMatrix(const mat4& InViewMatrix)
 {
-	ViewMatrix = view;
+	ViewMatrix = InViewMatrix;
 }
 
-void CRenderer::SetProjectionMatrix(const mat4 & proj)
+void CRenderer::SetProjectionMatrix(const mat4& InProjectionMatrix)
 {
-	ProjectionMatrix = proj;
+	ProjectionMatrix = InProjectionMatrix;
 }
 
-void CRenderer::SetProgram(const Shader & shader)
+void CRenderer::SetProgram(const Shader& InShader)
 {
-	DefaultShader = shader;
+	DefaultShader = InShader;
 }
 
 
 
-void CRenderer::DrawComponent(CECVisualMesh * meshComponent)
+void CRenderer::DrawComponent(const CECVisualMesh* MeshComponent) const
 {
-	GLuint program;
-	if (meshComponent->m_program != nullptr)
+	GLuint ShaderProgram = 0;
+	if (MeshComponent->ShaderProgram != nullptr)
 	{
-		glUseProgram(meshComponent->m_program->Program);
-		program = meshComponent->m_program->Program;
+		glUseProgram(MeshComponent->ShaderProgram->Program);
+		ShaderProgram = MeshComponent->ShaderProgram->Program;
 	}
 	else
 	{
 		glUseProgram(DefaultShader.Program);
-		program = DefaultShader.Program;
+		ShaderProgram = DefaultShader.Program;
 	}
 
 	//hardcoede matrix uniform location
-	glUniformMatrix4fv(EUniformEnum::MODEL_MATRIX_4X4, 1, GL_FALSE, glm::value_ptr(meshComponent->m_model));
-	glUniformMatrix4fv(EUniformEnum::VIEW_MATRIX_4X4, 1, GL_FALSE, glm::value_ptr(ViewMatrix));
-	glUniformMatrix4fv(EUniformEnum::PROJECTION_MATRIX_4X4, 1, GL_FALSE, glm::value_ptr(ProjectionMatrix));
+	glUniformMatrix4fv(static_cast<unsigned int>(EUniformEnum::MODEL_MATRIX_4X4), 1, GL_FALSE, glm::value_ptr(MeshComponent->ModelMatrix));
+	glUniformMatrix4fv(static_cast<unsigned int>(EUniformEnum::VIEW_MATRIX_4X4), 1, GL_FALSE, glm::value_ptr(ViewMatrix));
+	glUniformMatrix4fv(static_cast<unsigned int>(EUniformEnum::PROJECTION_MATRIX_4X4), 1, GL_FALSE, glm::value_ptr(ProjectionMatrix));
 
-	glUniform3f(EUniformEnum::OBJECT_COLOR_VEC3, meshComponent->m_color.x, meshComponent->m_color.y, meshComponent->m_color.z);
+	glUniform3f(static_cast<unsigned int>(EUniformEnum::OBJECT_COLOR_VEC3), MeshComponent->ColorVector.x, MeshComponent->ColorVector.y, MeshComponent->ColorVector.z);
 
 	//this uniform have use for light source
 	//hardcoded light value
@@ -75,84 +75,89 @@ void CRenderer::DrawComponent(CECVisualMesh * meshComponent)
 	//glUniform3f(EUniformEnum::LIGHT_POS_VEC3, 2 *sin(glfwGetTime()), 1.0, 1.0f);
 
 	//hardcoded camera position, need to be updated
-	glUniform3f(CAMERA_POS_VEC3, 0.0f, 0.0f, 0.0f);
+	glUniform3f(static_cast<unsigned int>(EUniformEnum::CAMERA_POS_VEC3), 0.0f, 0.0f, 0.0f);
 
 	//setup material
 	//GLint matAmbientLoc = glGetUniformLocation(program, "u_material.ambient");
 	//GLint matDiffuseLoc = glGetUniformLocation(program, "u_material.diffuse");
-	GLint matSpecularLoc = glGetUniformLocation(program, "u_material.specular");
-	GLint matShineLoc = glGetUniformLocation(program, "u_material.shininess");
+	const GLint MatSpecularLoc = glGetUniformLocation(ShaderProgram, "u_material.specular");
+	const GLint MatShineLoc = glGetUniformLocation(ShaderProgram, "u_material.shininess");
 
 	//glUniform3f(matAmbientLoc, 0.0f, 0.1f, 0.06f);
 	//glUniform3f(matDiffuseLoc, 0.0f, 0.50980392f, 0.50980392f);
-	glUniform3f(matSpecularLoc, 0.50196078f, 0.50196078f, 0.50196078f);
-	glUniform1f(matShineLoc, 16.0f);
+	glUniform3f(MatSpecularLoc, 0.50196078f, 0.50196078f, 0.50196078f);
+	glUniform1f(MatShineLoc, 16.0f);
 
 	//setup light
-	GLint lightDirectionLoc = glGetUniformLocation(program, "u_light.direction");
-	GLint lightAmbientLoc = glGetUniformLocation(program, "u_light.ambient");
-	GLint lightDiffuseLoc = glGetUniformLocation(program, "u_light.diffuse");
-	GLint lightSpecularLoc = glGetUniformLocation(program, "u_light.specular");
-	GLint ligtPositionLoc = glGetUniformLocation(program, "u_light.position");
+	const GLint LightDirectionLoc = glGetUniformLocation(ShaderProgram, "u_light.direction");
+	const GLint LightAmbientLoc = glGetUniformLocation(ShaderProgram, "u_light.ambient");
+	const GLint LightDiffuseLoc = glGetUniformLocation(ShaderProgram, "u_light.diffuse");
+	const GLint LightSpecularLoc = glGetUniformLocation(ShaderProgram, "u_light.specular");
+	const GLint LigtPositionLoc = glGetUniformLocation(ShaderProgram, "u_light.position");
 
-	glUniform3f(lightAmbientLoc, 0.2f, 0.2f, 0.2f);
-	glUniform3f(lightDiffuseLoc, 1.0f, 1.0f, 1.0f); 
-	glUniform3f(lightSpecularLoc, 1.0f, 1.0f, 1.0f);
-	glUniform3f(ligtPositionLoc, 3 * sin(float(glfwGetTime())), 3.0f, 2.0f);
+	glUniform3f(LightAmbientLoc, 0.2f, 0.2f, 0.2f);
+	glUniform3f(LightDiffuseLoc, 1.0f, 1.0f, 1.0f);
+	glUniform3f(LightSpecularLoc, 1.0f, 1.0f, 1.0f);
+	glUniform3f(LigtPositionLoc, 3 * sin(static_cast<float>(glfwGetTime())), 3.0f, 2.0f);
 	//directional light
-	glUniform3f(lightDirectionLoc, 3 * sin(float(glfwGetTime())), 3.0f, -2.0f);
+	glUniform3f(LightDirectionLoc, 3 * sin(static_cast<float>(glfwGetTime())), 3.0f, -2.0f);
 
 
-	for (const CMesh& c : meshComponent->GetModel()->GetMeshes())
+	for (const CMesh& Comp : MeshComponent->GetModel()->GetMeshes())
 	{
 		//if mesh has textures use them as material
-		if (bIsTexturingEnabled && c.HasTextures())
+		if (bIsTexturingEnabled && Comp.HasTextures())
 		{
-			GLuint diffuseNr = 1;
-			GLuint specularNr = 1;
-			for (GLuint i = 0; i < c.m_textures.size(); ++i)
+			GLuint DiffuseNum = 1;
+			GLuint SpecularNum = 1;
+			for (GLuint i = 0; i < Comp.m_textures.size(); ++i)
 			{
-				std::stringstream ss;
-				std::string number;
-				std::string name = c.m_textures.at(i).type;
-				if (name == "texture_diffuse")
-					ss << diffuseNr++;
-				else if (name == "texture_specular")
-					ss << specularNr++;
-				number = ss.str();
+				std::stringstream StringStream;
+				std::string Number;
+				const std::string Name = Comp.m_textures.at(i).type;
+				if (Name == "texture_diffuse")
+				{
+					StringStream << DiffuseNum++;
+				}
+				else if (Name == "texture_specular")
+				{
+					StringStream << SpecularNum++;
+				}
 
-				glUniform1i(glGetUniformLocation(program, ("u_material." + name + number).c_str()), i);
+				Number = StringStream.str();
+
+				glUniform1i(glGetUniformLocation(ShaderProgram, ("u_material." + Name + Number).c_str()), i);
 				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, c.m_textures.at(i).id);
+				glBindTexture(GL_TEXTURE_2D, Comp.m_textures.at(i).id);
 			}
 
 		}
-		glBindVertexArray(c.m_mesh.VAO);
-		glDrawElements(GL_TRIANGLES, c.m_mesh.numIndices, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(Comp.m_mesh.VAO);
+		glDrawElements(GL_TRIANGLES, Comp.m_mesh.numIndices, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
 	glUseProgram(0);
 }
 
 
-void CRenderer::Draw(CEntity * entity)
+void CRenderer::Draw(const CEntity* InEntity) const
 {
-	CEntityComponent * entityComponent = entity->GetEntityComponent(entity_component_id_t("ECVisual"));
+	const CEntityComponent* entityComponent = InEntity->GetEntityComponent(EntityComponentIDType("ECVisual"));
 	if (entityComponent != nullptr)
 	{
-		entity_component_id_t componentID = entityComponent->ComponentID();
+		EntityComponentIDType componentID = entityComponent->ComponentID();
 
 		if (componentID == "ECVisualMesh")
 		{
 			//call draw mesh
-			CECVisualMesh * mesh = static_cast<CECVisualMesh*> (entityComponent);
+			const CECVisualMesh * mesh = static_cast<const CECVisualMesh*> (entityComponent);
 			DrawComponent(mesh);
 		}
 		else
 		{
 			if (componentID == "ECVisualSphere")//draw sphere
 			{
-				CECVisualSphere * sphere = static_cast<CECVisualSphere*>(entityComponent);
+				const CECVisualSphere * sphere = static_cast<const CECVisualSphere*>(entityComponent);
 				//DrawComponent(sphere);
 				//draw sphere
 			}
@@ -164,20 +169,20 @@ void CRenderer::Draw(CEntity * entity)
 }
 
 
-void CRenderer::Draw(CScene * scene)
+void CRenderer::Draw(CScene * scene) const
 {
 	if (scene->IsActive()) {
-		using iterator_t = std::unordered_map <entity_id_t, std::unique_ptr<CEntity> >::const_iterator;
+		using iterator_t = std::unordered_map <EntityIDType, std::unique_ptr<CEntity> >::const_iterator;
 		for (iterator_t iter = scene->GetEntities().cbegin(); iter != scene->GetEntities().cend(); ++iter)
 		{
-			if(iter->second.get()->IsVisible())
+			if(iter->second.get()->ShouldBeVisible())
 				Draw(iter->second.get());
 		}
 	}
 
 }
 
-void CRenderer::Draw(CWorld * World)
+void CRenderer::Draw(const CWorld* World)
 {
 	ClearBuffer();
 	using TIterator = std::unordered_map <scene_id, std::unique_ptr<CScene> >::const_iterator;

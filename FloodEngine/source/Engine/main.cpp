@@ -1,5 +1,8 @@
+#pragma once
 #include "Engine.h"
 #include <thread>
+#include <windows.h>
+
 //#include "Model.h"
 //TODO:
 //transform CMesh to CModel containing meshes
@@ -11,8 +14,8 @@ constexpr int FRAME_LIMIT = 60;
 //TODO: add default position, rotation scale etc. values foe entities
 int main()
 {
-	CEngine Engine;
-	Engine.StartUp();
+	Engine Engine;
+	Engine.Initialize();
 	Engine.SetFrameLimit(FRAME_LIMIT);
 
 	//1. Load models using MeshManager
@@ -36,9 +39,9 @@ int main()
 	Scene->AddNewEntity("entity_dozer");
 	
 	/////////////////////////3//////////////////////////////
-	World->AddComponent("component_mesh_cube", MESH_COMPONENT);
-	World->AddComponent("component_mesh_table", MESH_COMPONENT);
-	World->AddComponent("component_mesh_dozer", MESH_COMPONENT);
+	World->AddComponent("component_mesh_cube", EComponentTypeEnum::MESH_COMPONENT);
+	World->AddComponent("component_mesh_table", EComponentTypeEnum::MESH_COMPONENT);
+	World->AddComponent("component_mesh_dozer", EComponentTypeEnum::MESH_COMPONENT);
 
 
 	//////////////////////////4/////////////////////////////
@@ -47,15 +50,15 @@ int main()
 	CECVisualMesh* DozerComponent = static_cast<CECVisualMesh*>(World->GetComponent("component_mesh_dozer"));
 
 	LampComponent->SetColor(1.0f, 0.5f, 0.5f);
-	LampComponent->SetProgram(Engine.GetShaderManager()->Get(0));
+	LampComponent->SetProgram(Engine.GetShaderManager()->Get(EShaderType::LAMP_SHADER));
 	LampComponent->SetMesh(Engine.GetMeshManager()->Get("mesh_cube"));
 
 	TableComponent->SetColor(0.5f, 0.5f, 0.5f);
-	TableComponent->SetProgram(Engine.GetShaderManager()->Get(1));
+	TableComponent->SetProgram(Engine.GetShaderManager()->Get(EShaderType::TABLE_SHADER));
 	TableComponent->SetMesh(Engine.GetMeshManager()->Get("mesh_table"));
 
 	DozerComponent->SetColor(1.0f, 1.0f, 1.0f);
-	DozerComponent->SetProgram(Engine.GetShaderManager()->Get(1));
+	DozerComponent->SetProgram(Engine.GetShaderManager()->Get(EShaderType::TABLE_SHADER));
 	DozerComponent->SetMesh(Engine.GetMeshManager()->Get("mesh_dozer"));
 
 	////////////////////////////5//////////////////////////
@@ -90,12 +93,10 @@ int main()
 	//main loop
 	//engine.GetRenderer()->EnableTexturing(false);
 	GLfloat Accumulate = 0;
-	double Fun = 0;
 	while (!glfwWindowShouldClose(Engine.GetWindowManager()->GetWindow()))
 	{
 		//update times
 		Engine.TickClock();
-		double deltaTime = Engine.GetDeltaTime();
 
 		// process events
 		Engine.GetInputManager()->ProcessInput();
@@ -108,7 +109,7 @@ int main()
 			Accumulate = 0;
 		}
 	}
-	Engine.ShutDown();
+	Engine.Shutdown();
 
 	return 0;
 }

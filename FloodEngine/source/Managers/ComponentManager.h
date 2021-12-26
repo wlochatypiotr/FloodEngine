@@ -3,19 +3,22 @@
 #include <memory>
 #include "Engine/EntityComponent.h"
 
-class CComponentManager
+class MComponentManager
 {
 public:
-	CComponentManager();
-	~CComponentManager();
-	CComponentManager(const CComponentManager&) = delete;
-	CComponentManager& operator=(const CComponentManager&) = delete;
+	MComponentManager();
+	~MComponentManager();
+
+	MComponentManager(const MComponentManager&) = delete;
+	MComponentManager(MComponentManager&&) = delete;
+	MComponentManager& operator=(const MComponentManager&) = delete;
+	MComponentManager& operator=(CEntityComponent&&) = delete;
 
 	void Initialize();
-	void AddComponent(const entity_component_id_t& id, EComponentTypeEnum type);
-	CEntityComponent* GetComponent(const entity_component_id_t& id);
+	void AddComponent(const EntityComponentIDType& ID, EComponentTypeEnum Type);
+	CEntityComponent* GetComponent(const EntityComponentIDType& ID) const;
 
 private:
-	std::unordered_map <entity_component_id_t, std::unique_ptr<CEntityComponent> > m_components;
+	std::unordered_map <EntityComponentIDType, std::unique_ptr<CEntityComponent> > Components;
 };
 

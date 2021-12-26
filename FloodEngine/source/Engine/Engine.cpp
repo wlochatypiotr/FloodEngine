@@ -1,45 +1,45 @@
 #include "Engine.h"
 
-CEngine::CEngine()
+Engine::Engine()
 {
 }
 
-CEngine::~CEngine()
+Engine::~Engine()
 {
 
 }
 
-bool CEngine::StartUp()
+bool Engine::Initialize()
 {
 	//1
 	//init windowManager
-	GLuint ret = glGetError();
-	m_windowManager = std::make_unique<CWindowManager>();
-	m_windowManager->Initialize(3, 3, 1366, 766);
-	ret = glGetError();
+	GLuint bGLSuccess = glGetError();
+	WindowManager = std::make_unique<MWindowManager>();
+	WindowManager->Initialize(3, 3, 1920, 1080);
+	bGLSuccess = glGetError();
 	//2
 	//init input manager - move to initialize
-	m_inputManager = std::make_unique<CInputManager>();
-	m_inputManager->Initialize(m_windowManager->GetWindow());
-	ret = glGetError();
+	InputManager = std::make_unique<MInputManager>();
+	InputManager->Initialize(WindowManager->GetWindow());
+	bGLSuccess = glGetError();
 	//3
 	//init shader mgr and load shaders in Initialize method
-	m_shaderManager = std::make_unique<CShaderManager>();
-	m_shaderManager->Initialize();
+	ShaderManager = std::make_unique<MShaderManager>();
+	ShaderManager->Initialize();
 	//4
 	//init MeshManager and load some meshes
-	m_meshManager = std::make_unique<CModelManager>();
-	m_meshManager->Initialize();
+	MeshManager = std::make_unique<MModelManager>();
+	MeshManager->Initialize();
 
 	//5
-	m_componentManager = std::make_unique<CComponentManager>();
+	ComponentManager = std::make_unique<MComponentManager>();
 	//loadcomponents
 	//m_componentManager->Initialize();
 
 	//6
 	//init Renderer with s default shader
-	m_renderer = std::make_unique<CRenderer>();
-	m_renderer->Initialize(m_shaderManager->Get(m_shaderManager->TABLE_SHADER), this->GetWindowManager());
+	Renderer = std::make_unique<CRenderer>();
+	Renderer->Initialize(ShaderManager->Get(ShaderManager->EShaderType::TABLE_SHADER), this->GetWindowManager());
 	//7
 
 	//Initialzie PhysX engine
@@ -47,13 +47,13 @@ bool CEngine::StartUp()
 	//m_physXWorld->StartUp();	
 	//8 
 	//Init world
-	m_world = std::make_unique<CWorld>();
-	m_world->Initialize(GetComponentManager());
+	World = std::make_unique<CWorld>();
+	World->Initialize(GetComponentManager());
 
 	return false;
 }
 
-void CEngine::ShutDown()
+void Engine::Shutdown()
 {
 	//8
 	//shutdown world
@@ -68,7 +68,7 @@ void CEngine::ShutDown()
 	//m_componentManager->ShutDown();
 
 	//4
-	m_meshManager->ShutDown();
+	MeshManager->ShutDown();
 
 	//3
 	//m_shaderManager->ShutDown();
@@ -77,20 +77,20 @@ void CEngine::ShutDown()
 	//m_inputManager->ShutDown();
 
 	//1
-	m_windowManager->ShutDown();
+	WindowManager->ShutDown();
 }
 
-double CEngine::GetCurrentTime()
+double Engine::GetCurrentTime() const
 {
 	return glfwGetTime();
 }
 
-double CEngine::GetDeltaTime()
+double Engine::GetDeltaTime() const
 {
 	return CurrentFrame - LastFrame;
 }
 
-void CEngine::TickClock()
+void Engine::TickClock()
 {
 	LastFrame = CurrentFrame;
 	CurrentFrame = GetCurrentTime();
@@ -100,12 +100,12 @@ void CEngine::TickClock()
 	}
 }
 
-void CEngine::SetFrameLimit(int FPSLimit)
+void Engine::SetFrameLimit(int FPSLimit)
 {
 	FrameLimit = FPSLimit;
 }
 
-bool CEngine::ShouldDrawNextFrame()
+bool Engine::ShouldDrawNextFrame()
 {
 	//FramLimit = 0 equals no limit
 	if (FrameLimit == 0)

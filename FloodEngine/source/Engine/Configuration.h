@@ -1,72 +1,91 @@
-#pragma once
-#include "Loaders/ShaderLoader.h" // add GL/glew
-#include "Managers/InputManager.h"	//add GLFW order here matters
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
-#include <thread>
-#include "Managers/ShaderManager.h"
-#include "Managers/InputManager.h"
+//#pragma once
+//#include "Loaders/ShaderLoader.h" // add GL/glew
+//#include "Managers/InputManager.h"	//add GLFW order here matters
+//#include "glm/glm.hpp"
+//#include "glm/gtc/matrix_transform.hpp"
+//#include "glm/gtc/type_ptr.hpp"
+//#include <thread>
+//#include "Managers/ShaderManager.h"
+//#include "Managers/InputManager.h"
 
+//using uint = unsigned int;
 
-class Configuration
-{
-public:
-	Configuration() = delete;
-	Configuration(const Configuration&) = delete;
-	Configuration& operator=(const Configuration&) = delete;
+//class Config
+//{
+//	Config(int GLMajorVer, int GLMinorVer, uint SreenX, uint ScreenY, uint ThreadsNum) :
+//	OpenGLMajorVer(GLMajorVer),
+//	OpenGLMinorVer(GLMinorVer),
+//	ScreenWidth(SreenX),
+//	ScreenHeight(ScreenY),
+//	ProcessThreads(ThreadsNum)
+//	{}
+//
+//
+//	const int OpenGLMajorVer;
+//	const int OpenGLMinorVer;
+//	const uint ScreenWidth;
+//	const uint ScreenHeight;
+//	const uint ProcessThreads;
+//};
 
-	//no of threads
-	static unsigned int m_threadsNumber;
+//namespace CoreGlobals
+//{
+//	static GLuint GScreenWidth;
+//	static GLuint GScreenHeight;
+//	static GLFWwindow* GWindow;
+//
+//	//matrices
+//	static glm::mat4 GViewMatrix;
+//	static glm::mat4 GProjectionMatrix;
+//
+//	static glm::mat4 GBoardModelMatrix;
+//	static glm::mat4 GLampModelMatrix;
+//
+//	static glm::vec3 GBoardColor;
+//	static glm::vec3 GLightColor;
+//
+//	static glm::vec3 GLightPosition;
+//
+//	static unsigned int GThreadsNum;
+//};
 
-	//managers
-	static CShaderManager m_shaders;
-	static CInputManager m_inputManager;
+//enum class EShaderType : uint8_t
+//{
+//	LAMP_SHADER,
+//	TABLE_SHADER
+//};
 
-	enum Shaders
-	{
-		LAMP_SHADER,
-		TABLE_SHADER
-	};
-	//windows attributes
-	static GLuint m_screenWidth;
-	static GLuint m_screenHeight;
-	static GLFWwindow* m_window;
+//class Configuration
+//{
+//public:
+//	Configuration() = delete;
+//	Configuration(const Configuration&) = delete;
+//	Configuration& operator=(const Configuration&) = delete;
 
-	//matrices
-	static glm::mat4 m_view;
-	static glm::mat4 m_projection;
+	//managers /TODo: move somewhere else - engine ?
+	//static ShaderManager m_shaders;
+	//static CInputManager m_inputManager;
 
-	static glm::mat4 m_boardModel;
-	static glm::mat4 m_lampModel;
+	//enum m_vertexAttributes {
+	//	VERTEX_POSITION = 0,
+	//	VERTEX_NORMAL = 1,
+	//	MODEL_MATRIX = 3,
+	//	VIEW_MATRIX = 4,
+	//	PROJECTION_MATRIX = 5,
+	//	OBJECT_COLOR = 6,
+	//	LIGHT_COLOR = 7,
+	//	LIGHT_SOURCE_POS = 8
+	//};
 
-	static glm::vec3 m_boardColor;
-	static glm::vec3 m_lightColor;
-
-	static glm::vec3 m_lightPosition;
-
-	//vertex atributes layout positions
-
-	enum m_vertexAttributes {
-		VERTEX_POSITION = 0,
-		VERTEX_NORMAL = 1,
-		MODEL_MATRIX = 3,
-		VIEW_MATRIX = 4,
-		PROJECTION_MATRIX = 5,
-		OBJECT_COLOR = 6,
-		LIGHT_COLOR = 7,
-		LIGHT_SOURCE_POS = 8
-	};
-
-	static void Initialize();
-	static void InitializeShaders();
-	static void InitializeMarices();
-	static void InitializeColors();
-	static void InitializeGLFW();
-	static void InitializeInputManager();
-	static void InitializeOpenGL();
+	//static void Initialize();
+	//static void InitializeShaders();
+	//static void InitializeMarices();
+	//static void InitializeColors();
+	//static void InitializeGLFW();
+	//static void InitializeInputManager();
+	//static void InitializeOpenGL();
 
 	//static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 	//static bool m_keys[1024];
-};
+//};

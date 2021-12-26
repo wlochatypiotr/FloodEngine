@@ -1,47 +1,53 @@
 #include "MeshManager.h"
 
-CModelManager::CModelManager() 
+MModelManager::MModelManager() 
 {
 
 }
 
-CModelManager::~CModelManager()
+MModelManager::~MModelManager()
 {
 
 }
 
 //will throw exception if no such element exists
-CModel * CModelManager::Get(model_id_t id)
+CModel * MModelManager::Get(const ModelIDType& ID) const
 {
-	return m_map.at(id).get();
+	return Models.at(ID).get();
 }
 
-bool CModelManager::Load(model_id_t id, model_id_t filename)
+bool MModelManager::Load(const ModelIDType& ID, ModelIDType Filename)
 {
-	std::unique_ptr<CModel> pmesh = std::make_unique<CModel>();
-	bool ret = pmesh->LoadModel(filename);
-	if (ret)
-		printf("Mesh %s loaded successfully\n", filename.c_str());
+	std::unique_ptr<CModel> MeshPtr = std::make_unique<CModel>();
+	const bool bSuccess = MeshPtr->LoadModel(Filename);
+	if (bSuccess)
+	{
+		Models.emplace(ID, std::move(MeshPtr));
+
+		printf("Mesh %s loaded successfully\n", Filename.c_str());
+	}
 	else
-		printf("Mesh %s loading failed\n", filename.c_str());
+	{
+		printf("Mesh %s loading failed\n", Filename.c_str());
+		MeshPtr.reset();
+	}
 
-	m_map.emplace(id, std::move(pmesh));
-
-	return ret;
+	return bSuccess;
 }
 
-void CModelManager::ShutDown()
+void MModelManager::ShutDown()
 {
 	Clear();
 }
 
-void CModelManager::Clear()
+void MModelManager::Clear()
 {
-	m_map.clear();
+	Models.clear();
 }
 
-void CModelManager::Initialize()
+void MModelManager::Initialize()
 {
+	//TODO: move to config
 	Load("mesh_cube", "models/Cube.obj");
 	Load("mesh_table", "models/PoolTable.obj");
 	Load("mesh_dozer", "models/nanosuit.obj");

@@ -2,19 +2,22 @@
 
 
 
-CWindowManager::CWindowManager()
+MWindowManager::MWindowManager()
 {
 }
 
 
-CWindowManager::~CWindowManager()
+MWindowManager::~MWindowManager()
 {
 }
 
-void CWindowManager::Initialize(int majorVersion, int minorVersion, int screenWidth, int screenHeight)
+void MWindowManager::Initialize(int majorVersion, int minorVersion, int screenWidth, int screenHeight)
 {
 
+	printf("Initializing GLFW version %s \n", glfwGetVersionString());
+	printf("Using OpenGL version %s", glGetString(GL_VERSION));
 	glfwInit();
+
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, majorVersion);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minorVersion);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -26,16 +29,18 @@ void CWindowManager::Initialize(int majorVersion, int minorVersion, int screenWi
 	m_screenHeight = screenHeight;
 	m_window = glfwCreateWindow(m_screenWidth, m_screenHeight, "PoolDozer", nullptr, nullptr);
 	glfwMakeContextCurrent(m_window);
-	if (glewInit() != GLEW_OK)
+	if (glewInit() == GLEW_OK)
 	{
-		std::cout << "Failed to initialize GLEW" << std::endl;
+		printf("Failed to initialize GLEW");
 	}
 	else
-		std::cout << "Successfully created GLFW window " << m_screenWidth << " x " << m_screenHeight << std::endl;
+	{
+		printf("Successfully created GLFW window %d x %d", m_screenWidth, m_screenHeight);
+	}
 
 }
 
-void CWindowManager::ShutDown()
+void MWindowManager::ShutDown()
 {
 	glfwTerminate();
 }

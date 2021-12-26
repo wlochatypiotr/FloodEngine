@@ -1,21 +1,22 @@
 #include "ShaderManager.h"
 
-CShaderManager::CShaderManager()
+MShaderManager::MShaderManager()
 {
 }
 
-Shader& CShaderManager::Get(const int & id)
+Shader& MShaderManager::Get(const EShaderType ShaderType)
 {
-	return m_map[id];
+	return ShaderMap[ShaderType];
 }
 
-void CShaderManager::Initialize()
+void MShaderManager::Initialize()
 {
-	Load(LAMP_SHADER, Shader("shaders/Phong_VS.frag", "shaders/ColorOnly_FS.frag"));
-	Load(TABLE_SHADER, Shader("shaders/Phong_VS.frag", "shaders/Phong_FS.frag"));
+	//TODO:move paths to config
+	Load(EShaderType::LAMP_SHADER, Shader("shaders/Phong_VS.frag", "shaders/ColorOnly_FS.frag"));
+	Load(EShaderType::TABLE_SHADER, Shader("shaders/Phong_VS.frag", "shaders/Phong_FS.frag"));
 }
 
-void CShaderManager::Load(const int& id, Shader shader)
+void MShaderManager::Load(const EShaderType ShaderType, const Shader& InShader)
 {
-	m_map.emplace(id, shader);
+	ShaderMap.emplace(ShaderType, InShader);
 }

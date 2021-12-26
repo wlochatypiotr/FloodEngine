@@ -1,34 +1,42 @@
 #include "InputManager.h"
 
 
-bool CInputManager::m_keys[1024];
-GLFWwindow * CInputManager::m_window = nullptr;
+bool MInputManager::Keys[1024];
+GLFWwindow * MInputManager::Window = nullptr;
 
-CInputManager::CInputManager()
+MInputManager::MInputManager()
 {
 }
 
-void CInputManager::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mode)
+void MInputManager::KeyCallback(GLFWwindow * InWindow,const int Key, const int Scancode, const int Action, const int Mode)
 {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(m_window, GL_TRUE);
-	if (key >= 0 && key < 1024)
+	if (Key == GLFW_KEY_ESCAPE && Action == GLFW_PRESS)
 	{
-		if (action == GLFW_PRESS)
-			m_keys[key] = true;
-		else if (action == GLFW_RELEASE)
-			m_keys[key] = false;
+		glfwSetWindowShouldClose(Window, GL_TRUE);
+	}
+
+	if (Key >= 0 && Key < 1024)
+	{
+		if (Action == GLFW_PRESS)
+		{
+
+			Keys[Key] = true;
+		}
+		else if (Action == GLFW_RELEASE)
+		{
+			Keys[Key] = false;
+		}
 	}
 }
 
-void CInputManager::Initialize(GLFWwindow* window)
+void MInputManager::Initialize(GLFWwindow* InWindow)
 {
-	m_window = window;
-	glfwSetKeyCallback(m_window, CInputManager::KeyCallback);
-	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	Window = InWindow;
+	glfwSetKeyCallback(Window, MInputManager::KeyCallback);
+	glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-void CInputManager::ProcessInput()
+void MInputManager::ProcessInput()
 {
 	glfwPollEvents();
 }

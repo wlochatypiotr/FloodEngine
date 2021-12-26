@@ -10,37 +10,43 @@
 #include "PhysXWorld.h"
 #include <memory>
 
-class CEngine
+class Engine
 {
 public:
-	CEngine();
-	~CEngine();
-	CEngine(const CEngine&) = delete;
-	CEngine& operator=(const CEngine&) = delete;
-	bool StartUp();
-	void ShutDown();
-	double GetCurrentTime();
-	double GetDeltaTime();
+	Engine();
+	~Engine();
+	Engine(const Engine&) = delete;
+	Engine(Engine&&) = delete;
+	Engine& operator=(const Engine&) = delete;
+	Engine& operator=(Engine&&) = delete;
+
+	bool Initialize();
+	void Shutdown();
+	double GetCurrentTime() const;
+	double GetDeltaTime() const;
 	void TickClock();
 	void SetFrameLimit(int FPSLimit);
 	bool ShouldDrawNextFrame();
-	CWindowManager * GetWindowManager() const { return m_windowManager.get();  }
-	CInputManager * GetInputManager() const { return m_inputManager.get(); }
-	CShaderManager * GetShaderManager() const { return m_shaderManager.get(); }
-	CModelManager * GetMeshManager() const { return m_meshManager.get(); }
-	CRenderer * GetRenderer() const { return m_renderer.get(); }
-	CComponentManager * GetComponentManager() const { return m_componentManager.get(); }
-	CWorld * GetWorld() const { return m_world.get(); }
+
+	MWindowManager* GetWindowManager() const { return WindowManager.get();  }
+	MInputManager* GetInputManager() const { return InputManager.get(); }
+	MShaderManager* GetShaderManager() const { return ShaderManager.get(); }
+	MModelManager* GetMeshManager() const { return MeshManager.get(); }
+	MComponentManager* GetComponentManager() const { return ComponentManager.get(); }
+
+	CRenderer* GetRenderer() const { return Renderer.get(); }
+	CWorld* GetWorld() const { return World.get(); }
 
 private:
-	std::unique_ptr<CWindowManager> m_windowManager;
-	std::unique_ptr<CInputManager> m_inputManager;
-	std::unique_ptr<CShaderManager> m_shaderManager;
-	std::unique_ptr<CRenderer> m_renderer;
-	std::unique_ptr<CModelManager> m_meshManager;
-	std::unique_ptr<CComponentManager> m_componentManager;
+	std::unique_ptr<MWindowManager> WindowManager;
+	std::unique_ptr<MInputManager> InputManager;
+	std::unique_ptr<MShaderManager> ShaderManager;
+	std::unique_ptr<MModelManager> MeshManager;
+	std::unique_ptr<MComponentManager> ComponentManager;
 	//std::unique_ptr<CPhysXWorld> m_physXWorld;
-	std::unique_ptr<CWorld> m_world;
+
+	std::unique_ptr<CRenderer> Renderer;
+	std::unique_ptr<CWorld> World;
 
 	double LastFrame = 0;
 	double CurrentFrame = 0;

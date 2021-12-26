@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-struct vertexData
+struct VertexData
 {
 	//vertex position
 	float x;

@@ -2,23 +2,27 @@
 #include <unordered_map>
 #include "Loaders/ShaderLoader.h"
 
-class CShaderManager
+enum class EShaderType : uint8_t
+{
+	LAMP_SHADER,
+	TABLE_SHADER
+};
+
+class MShaderManager
 {
 public:
-	enum EShaderID
-	{
-		LAMP_SHADER,
-		TABLE_SHADER
-	};
 
-	CShaderManager(const CShaderManager&) = delete;
-	CShaderManager& operator=(const CShaderManager&) = delete;
-	CShaderManager();
+	MShaderManager(const MShaderManager&) = delete;
+	MShaderManager(MShaderManager&&) = delete;
+	MShaderManager& operator=(const MShaderManager&) = delete;
+	MShaderManager& operator=(MShaderManager&&) = delete;
 
-	Shader& Get(const int& id);
+	MShaderManager();
+
+	Shader& Get(const EShaderType ShaderType);
 	void Initialize();
-	void Load(const int& id, Shader shader);
-private:
-	std::unordered_map <int, Shader > m_map;
+	void Load(const EShaderType ShaderType, const Shader& InShader);
 
+private:
+	std::unordered_map <EShaderType, Shader > ShaderMap;
 };

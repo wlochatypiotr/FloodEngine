@@ -16,7 +16,7 @@ struct MeshStruct {
 	unsigned int numVertices;
 	unsigned int materialIndex;
 };
-struct vertexData
+struct VertexData
 {
 	//vertex position
 	float x;
@@ -48,14 +48,14 @@ public:
 	CMesh() {}
 	~CMesh() { UnloadOpenGLData(); }
 
-	std::vector<vertexData> m_vertices;
+	std::vector<VertexData> m_vertices;
 	std::vector<unsigned int> m_indices;
 	std::vector<TextureStruct> m_textures;
 	bool HasTextures() const { return !m_textures.empty(); }
 	MeshStruct m_mesh;
 private:
 	bool LoadMeshToOpenGL();
-	void UnloadOpenGLData();
+	void UnloadOpenGLData() const;
 };
 
 class CModel
@@ -64,7 +64,7 @@ public:
 	CModel();
 
 	bool LoadModel(const std::string& Filename);
-	const std::vector<CMesh>& GetMeshes();
+	const std::vector<CMesh>& GetMeshes() const;
 
 private:
 	std::vector<TextureStruct> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
